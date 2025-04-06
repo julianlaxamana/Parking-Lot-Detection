@@ -1,0 +1,1 @@
+reqs : torchvision opencv-python pandas requests
