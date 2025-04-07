@@ -23,8 +23,27 @@ if __name__ == "__main__":
         # Draw the bounding boxes
         result.render()
         img =  cv2.cvtColor(readimg, cv2.COLOR_RGB2BGR)
-    
-        cv2.rectangle(img, (100, 100), (200, 200), color=(255,0,0), thickness=2)
+
+        # Get the data in a pandas dataset
+        pd_df = result.pandas()
+        df = pd_df.xyxy[0].transpose()
+
+        x1, y1 = 100, 100
+        x2, y2 = 200, 200
+        inside = False
+        for col in df.columns:
+            box = []
+            for index, row in df.iterrows():
+                box.append(row[col])
+
+            print(box)
+            if x1 < box[0] and y1 < box[1] and x2 > box[2] and y2 > box[3]:
+                inside = True 
+
+        if inside:
+            cv2.rectangle(img, (x1, y1), (x2, y2), color=(0,255,0), thickness=2)
+        else:
+            cv2.rectangle(img, (x1, y1), (x2, y2), color=(0,0,255), thickness=2)
 
         # Display the resulting frame
         cv2.imshow('frame', img)
