@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clovis Community College Parking Spots AC-3</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .header {
+            padding: 50px 0;
+            font-size: 2em;
+            font-weight: 600;
+        }
+        .content {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+        .counter {
+            font-size: 4em;
+            margin: 20px 0;
+        }
+        .button {
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #eaeaea;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Clovis Community College Parking Spots AC-3</div>
+    <div class="content">
+        <div class="counter" id="counter">{{ car_count }}</div>
+        <button class="button" onclick="updateCount('increment')">Add Car</button>
+        <button class="button" onclick="updateCount('decrement')">Remove Car</button>
+    </div>
+    <script>
+        function updateCount(action) {
+            fetch("/update", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({action: action})
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('counter').innerText = data.car_count;
+            });
+        }
+    </script>
+</body>
+</html>
